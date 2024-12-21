@@ -1,23 +1,58 @@
 import React from "react";
 
 class AddContact extends React.Component {
+  state = {
+    name: "",
+    email: "",
+  };
+  addContact = (event) => {
+    event.preventDefault();    
+    if(this.name === "" && this.email === ""){
+
+        alert("mandatory");
+        return;
+    }
+    this.props.addContactHandler(this.state);
+    // console.log(this.state);
+    this.setState({name: "",
+        email: "",});
     
+};
   render() {
-    const addContact = () => {};
+    
+
     return (
-      <div className='ui main'>
+      <div className="ui main">
         {/* <div></div> */}
         <h2>Add Contact</h2>
-        <form className="ui form" onSubmit={addContact}>
+        <form className="ui form" onSubmit={this.addContact}>
           <div className="field">
             <label>Name</label>
-            <input type="text" placeholder="Name" name="name"/>
+            <input
+              type="text"
+              placeholder="Name"
+              name="name"
+              value={this.state.name}
+              onChange={(e) => {
+                this.setState({ name: e.target.value });
+              }}
+            />
           </div>
           <div className="field">
             <label>Email</label>
-            <input type="text" placeholder="Email" name="email" />
+            <input
+              type="text"
+              placeholder="Email"
+              name="email"
+              value={this.state.email}
+              onChange={(e) => {
+                this.setState({ email: e.target.value });
+              }}
+            />
           </div>
-          <button className="ui button blue" type = 'submit'>Add</button>
+          <button className="ui button blue">
+            Add
+          </button>
         </form>
       </div>
     );
