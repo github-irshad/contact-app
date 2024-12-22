@@ -11,6 +11,9 @@ import EditContact from "./EditContact.js";
 
 function App() {
   const [contacts, setContacts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+
   const addContactHandler = async (contact) => {
     const request = {
       id: uuid(),
@@ -43,12 +46,27 @@ function App() {
 
   const updateContactHandler = async (contact) => {
     const response = await api.put(`/contacts/${contact.id}`, contact);
-    const {id,name,email} = response.data;
+    const { id, name, email } = response.data;
     setContacts(
-      contacts.map((contact) =>{
+      contacts.map((contact) => {
         return contact.id === id ? response.data : contact;
       })
-    )
+    );
+  };
+
+  const searchHandler = (searchTerm) => {
+    setSearchTerm(searchTerm);
+    if (searchTerm !== "") {
+      const newContactList = contacts.filter((contact) => {
+        return Object.values(contact)
+          .join(" ")
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+      });
+      setSearchResult(newContactList);
+    } else {
+      setSearchResult(contacts);
+    }
   };
 
   const navigate = useNavigate();
@@ -81,8 +99,10 @@ function App() {
           path="/"
           element={
             <ContactList
-              contacts={contacts}
+              contacts={searchTerm.length <1 ?contacts : searchResult}
               removeContactHandler={deleteContactHandler}
+              term={searchTerm}
+              searchHandler={searchHandler}
             />
           }
         ></Route>
