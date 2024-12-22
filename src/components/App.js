@@ -4,7 +4,8 @@ import AddContact from "./AddContact";
 import Header from "./Header";
 import { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import ContactDetail from "./ContactDetail";
 
 function App() {
   const [contacts, setContacts] = useState([]);
@@ -31,26 +32,32 @@ function App() {
     setContacts(newContacts);
   };
 
+  const navigate = useNavigate();
+
   return (
     <div className="ui container">
-      <Router>
-        <Header />
-        <Routes>
-          <Route
-            path="/add"
-            element={<AddContact addContactHandler={addContactHandler} />}
-          ></Route>
-          <Route
-            path="/"
-            element={
-              <ContactList
-                contacts={contacts}
-                removeContactHandler={deleteContactHandler}
-              />
-            }
-          ></Route>
-        </Routes>
-      </Router>
+      <Header />
+      <Routes>
+        <Route
+          path="/add"
+          element={
+            <AddContact
+              addContactHandler={addContactHandler}
+              navigate={navigate}
+            />
+          }
+        ></Route>
+        <Route
+          path="/"
+          element={
+            <ContactList
+              contacts={contacts}
+              removeContactHandler={deleteContactHandler}
+            />
+          }
+        ></Route>
+        <Route path="/contact/:id" element={<ContactDetail />}></Route>
+      </Routes>
     </div>
   );
 }
