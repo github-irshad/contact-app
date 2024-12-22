@@ -8,10 +8,7 @@ export const ContactCard = (props) => {
     <div className="item">
       <img className="ui avatar image" alt="user" src={user} />
       <div className="content">
-        <Link
-          to={`/contact/${id}`}
-          state={props.contact}
-        >
+        <Link to={`/contact/${id}`} state={props.contact}>
           <div className="header">{name}</div>
           <div>{email}</div>
         </Link>
@@ -23,6 +20,12 @@ export const ContactCard = (props) => {
           props.deleteContactHandler(id);
         }}
       ></i>
+      <Link to={`/edit/${id}`} state={props.contact}>
+        <i
+          className="edit alternate outline icon"
+          style={{ color: "blue", marginTop: "7px" }}
+        ></i>
+      </Link>
     </div>
   );
 };

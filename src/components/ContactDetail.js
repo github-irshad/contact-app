@@ -10,7 +10,7 @@ const ContactDetail = (props) => {
     <div className="main">
       <div className="ui card centered">
         <div className="image">
-          <img alt="image" src={user} />
+          <img alt="user" src={user} />
         </div>
       </div>
       <div className="content">
